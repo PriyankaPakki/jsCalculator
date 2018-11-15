@@ -11,20 +11,78 @@ function inputDigit(digit) {
   const { displayValue, waitingForSecondOperand } = calculator;
 
   if (waitingForSecondOperand === true) {
+	//set the screen to second input entered
     calculator.displayValue = digit;
     calculator.waitingForSecondOperand = false;
   } else {
+	  //if the number is a non-zero number, we append to it
     calculator.displayValue = displayValue === '0' ? digit : displayValue + digit;
   }
-
-  console.log(calculator);
+	console.log(calculator);
 }
+
+//to handle a decimal point
+function inputDecimal(dot) {
+	if (calculator.waitingForSecondOperand === true) return;
+
+  // If the `displayValue` does not contain a decimal point
+  // check if `displayValue` does not contain a decimal point
+  if (!calculator.displayValue.includes(dot)) {
+    // Append the decimal point
+    calculator.displayValue += dot;
+  }
+}
+
+// function to handle operators (3 scenes)
+function handleOperator(nextOperator) {
+  const { firstOperand, displayValue, operator } = calculator
+  const inputValue = parseFloat(displayValue); //converting curent number into a parseFloat value
+    
+	
+   //if user wants to change an operand to other then override the previous operand
+   if (operator && calculator.waitingForSecondOperand)  {
+    calculator.operator = nextOperator;
+    console.log(calculator);
+    return;
+  }
+    //if first operand is null, set it to the input value
+  if (firstOperand == null) {
+    calculator.firstOperand = inputValue;
+  } else if (operator) {
+    const currentValue = firstOperand || 0;
+    const result = performCalculation[operator](currentValue, inputValue);
+
+    calculator.displayValue = String(result);
+    calculator.firstOperand = result;
+  }
+
+  //set the waiting for second operand flag and operator as the nextOperator
+  calculator.waitingForSecondOperand = true;
+  calculator.operator = nextOperator;
+  console.log(calculator);   
+}
+
+
+
+
+const performCalculation = {
+  '/': (firstOperand, secondOperand) => firstOperand / secondOperand,
+
+  '*': (firstOperand, secondOperand) => firstOperand * secondOperand,
+
+  '+': (firstOperand, secondOperand) => firstOperand + secondOperand,
+
+  '-': (firstOperand, secondOperand) => firstOperand - secondOperand,
+
+  '=': (firstOperand, secondOperand) => secondOperand
+};
 
 //function to set the calculator screen to 0
 function updateDisplay() {
   const display = document.querySelector('.calculator-screen');
   display.value = calculator.displayValue;
 }
+
 updateDisplay();
 
 //for handling (0-9) (+,-,/,*,=) (.) (AC) listen for clicks on calculator
@@ -58,65 +116,13 @@ keys.addEventListener('click', (event) => {
   updateDisplay();
 });
 
-const performCalculation = {
-  '/': (firstOperand, secondOperand) => firstOperand / secondOperand,
-
-  '*': (firstOperand, secondOperand) => firstOperand * secondOperand,
-
-  '+': (firstOperand, secondOperand) => firstOperand + secondOperand,
-
-  '-': (firstOperand, secondOperand) => firstOperand - secondOperand,
-
-  '=': (firstOperand, secondOperand) => secondOperand
-};
-
-function displayOperator(operator){
-	calculator.displayValue = operator;
-}
-
-
-
-function inputDecimal(dot) {
-  if (calculator.waitingForSecondOperand === true) return;
-
-  // If the `displayValue` does not contain a decimal point
-  if (!calculator.displayValue.includes(dot)) {
-    // Append the decimal point
-    calculator.displayValue += dot;
-  }
-}
-
-
- 
-
-function handleOperator(nextOperator) {
-  const { firstOperand, displayValue, operator } = calculator
-  const inputValue = parseFloat(displayValue);
-
-  if (operator && calculator.waitingForSecondOperand)  {
-    calculator.operator = nextOperator;
-    return;
-  }
-
-  if (firstOperand == null) {
-    calculator.firstOperand = inputValue;
-  } else if (operator) {
-    const currentValue = firstOperand || 0;
-    const result = performCalculation[operator](currentValue, inputValue);
-
-    calculator.displayValue = String(result);
-    calculator.firstOperand = result;
-  }
-
-  calculator.waitingForSecondOperand = true;
-  calculator.operator = nextOperator;
-}
 
 function resetCalculator() {
   calculator.displayValue = '0';
   calculator.firstOperand = null;
   calculator.waitingForSecondOperand = false;
   calculator.operator = null;
+  console.log(calculator);
 }
 
 
