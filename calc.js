@@ -35,9 +35,10 @@ function inputDecimal(dot) {
 
 // function to handle operators (3 scenes)
 function handleOperator(nextOperator) {
-  const { firstOperand, displayValue, operator } = calculator
+  const { firstOperand, displayValue, operator } = calculator;
   const inputValue = parseFloat(displayValue); //converting curent number into a parseFloat value
     
+	calculator.displayValue = nextOperator; // how to do this it shud work
 	
    //if user wants to change an operand to other then override the previous operand
    if (operator && calculator.waitingForSecondOperand)  {
@@ -117,15 +118,18 @@ keys.addEventListener('click', (event) => {
 });
 
 
+//function displayOperator(operator) {
+//	calculator.displayValue = operator;
+//} # BUG 
+
 function resetCalculator() {
   calculator.displayValue = '0';
   calculator.firstOperand = null;
   calculator.waitingForSecondOperand = false;
   calculator.operator = null;
   console.log(calculator);
+  //althogh it doesnt make any dif yes
 }
-
-
 
 
 

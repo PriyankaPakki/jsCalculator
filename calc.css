@@ -54,6 +54,7 @@ button:hover {
   
 }
 
+
 .clear {
   background-color: #f0595f;
   border-color: #b0353a;
@@ -81,7 +82,7 @@ button:hover {
  
 }
 
-.equalsign:hover {
+.equal-sign{
   background-color: #4e9ed4;
 }
 
