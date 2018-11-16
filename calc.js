@@ -6,6 +6,9 @@ const calculator = {
   operator: null, //operator for expression
 };
 
+const log = {
+	displayString : null
+};
 //to modify the calcy screen when any digits are clicked
 function inputDigit(digit) {
   const { displayValue, waitingForSecondOperand } = calculator;
@@ -107,10 +110,15 @@ keys.addEventListener('click', (event) => {
     return;
   }
   //if target is a AC
-  if (target.classList.contains('allclear')) {
+  if (target.classList.contains('clear')) {
     resetCalculator();
 		updateDisplay();
     return;
+  }
+  //if target contains log
+  if (target.classList.contains('log')) {
+	  updateLogscreen();
+	  return;
   }
 
   inputDigit(target.value);
