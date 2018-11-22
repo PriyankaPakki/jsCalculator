@@ -28,12 +28,13 @@ function inputDigit(digit) {
   if (waitingForSecondOperand === true) {
 	//set the screen to second input entered
      calculator.displayValue = digit;
-	calculator.previousString += digit;
+	   calculator.previousString += digit;
     calculator.waitingForSecondOperand = false;
   } else {
 	  //if the number is a non-zero number, we append to it
-    calculator.displayValue = displayValue === '0' ? digit : displayValue + digit;
-	calculator.previousString += String(calculator.displayValue);
+     
+     calculator.displayValue = displayValue === '0' ? digit : displayValue + digit;
+	   calculator.previousString += String(calculator.displayValue);
   }
 	console.log(calculator);
 }
@@ -77,8 +78,10 @@ function handleOperator(nextOperator) {
 
     calculator.displayValue = String(result);
 	  calculator.previousString += String(result);
+    array.push(calculator.previousString);
+    clearPreviousString();
     calculator.firstOperand = result;
-    //array.push(calculator.previousString);
+    
 
 	
   }
@@ -90,7 +93,7 @@ function handleOperator(nextOperator) {
   
   console.log(calculator);  
   console.log(array); 
-  //clearPreviousString();
+ 
 }
 
 
@@ -125,6 +128,9 @@ keys.addEventListener('click', (event) => {
     return;
   }
   //if target is an operator handle it with function
+  //if(target.classList.contains('operator') && target.value === '=') {
+  //  calculator.waitingForSecondOperand = false;
+  //}
   if (target.classList.contains('operator')) {
     handleOperator(target.value);
 		updateDisplay();
@@ -160,6 +166,7 @@ function resetCalculator() {
   calculator.displayValue = '0';
   calculator.firstOperand = null;
   calculator.waitingForSecondOperand = false;
+  calculator.previousString = "";
   calculator.operator = null;
   console.log(calculator);
   //althogh it doesnt make any dif yes
