@@ -4,22 +4,36 @@ const calculator = {
   firstOperand: null, //first operand
   waitingForSecondOperand: false, //flag to check if the expression is good to be evaluated
   operator: null, //operator for expression
+  previousString : "", //storing the previous calculation
 };
 
-const log = {
-	displayString : null
+var array = new Array();
+
+//function to clear the previous string after keeping it in the array
+function clearPreviousString(){
+  calculator.previousString = "";
 };
+
+clearPreviousString();
+
+//constructor to store the stack and displayString
+const log = {
+	displayString : "",
+};
+
 //to modify the calcy screen when any digits are clicked
 function inputDigit(digit) {
   const { displayValue, waitingForSecondOperand } = calculator;
 
   if (waitingForSecondOperand === true) {
 	//set the screen to second input entered
-    calculator.displayValue = digit;
+     calculator.displayValue = digit;
+	calculator.previousString += digit;
     calculator.waitingForSecondOperand = false;
   } else {
 	  //if the number is a non-zero number, we append to it
     calculator.displayValue = displayValue === '0' ? digit : displayValue + digit;
+	calculator.previousString += String(calculator.displayValue);
   }
 	console.log(calculator);
 }
@@ -33,6 +47,7 @@ function inputDecimal(dot) {
   if (!calculator.displayValue.includes(dot)) {
     // Append the decimal point
     calculator.displayValue += dot;
+	calculator.previousString += ".";
   }
 }
 
@@ -41,29 +56,41 @@ function handleOperator(nextOperator) {
   const { firstOperand, displayValue, operator } = calculator;
   const inputValue = parseFloat(displayValue); //converting curent number into a parseFloat value
     
-	calculator.displayValue = nextOperator; // how to do this it shud work
+	calculator.displayValue = nextOperator;
+	calculator.previousString += String(nextOperator);
+	console.log(calculator);
 	
-   //if user wants to change an operand to other then override the previous operand
+   //if user wants to change an operator to other then override the previous operand
    if (operator && calculator.waitingForSecondOperand)  {
     calculator.operator = nextOperator;
-    console.log(calculator);
+	calculator.previousString += String(nextOperator);
+	console.log(calculator);
     return;
   }
     //if first operand is null, set it to the input value
   if (firstOperand == null) {
     calculator.firstOperand = inputValue;
+	
   } else if (operator) {
     const currentValue = firstOperand || 0;
     const result = performCalculation[operator](currentValue, inputValue);
 
     calculator.displayValue = String(result);
+	  calculator.previousString += String(result);
     calculator.firstOperand = result;
+    //array.push(calculator.previousString);
+
+	
   }
 
   //set the waiting for second operand flag and operator as the nextOperator
   calculator.waitingForSecondOperand = true;
   calculator.operator = nextOperator;
-  console.log(calculator);   
+  
+  
+  console.log(calculator);  
+  console.log(array); 
+  //clearPreviousString();
 }
 
 
@@ -115,15 +142,14 @@ keys.addEventListener('click', (event) => {
 		updateDisplay();
     return;
   }
-  //if target contains log
-  if (target.classList.contains('log')) {
-	  updateLogscreen();
-	  return;
-  }
-
+  
   inputDigit(target.value);
   updateDisplay();
+
 });
+
+  
+
 
 
 //function displayOperator(operator) {

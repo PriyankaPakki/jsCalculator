@@ -11,20 +11,22 @@ html {
 
 .calculator {
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 15px;
   position: absolute;
+  padding: 15px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 500px;
-  height:580px;
+  height:610px;
 }
 
 .calculator-screen {
   width: 100%;
   font-size: 5rem;
   height: 80px;
-  border: none;
+  border: 7px solid #c4c4c4;
+  border-radius: 15px;
   background-color: #252525;
   color: #fff;
   text-align: right;
@@ -35,7 +37,7 @@ html {
 .calculator-logscreen{
   width: 100%;
   font-size: 5rem;
-  height: 60px;
+  height: 80px;
   border: 7px solid #c4c4c4;
   border-radius: 15px;
   background-color: #252525;
@@ -44,6 +46,14 @@ html {
   padding-right: 20px;
   padding-left: 10px;
   grid-area: 6 / 2/ 6/ 5;
+  overflow: auto
+}
+
+.calculator-logscreen:hover{
+	width: 100%;
+    height: 500px;
+    
+    border-radius: 50px;
 }
 
 button {
@@ -91,10 +101,15 @@ button:hover {
   background-color: #2e86c0;
   border-color: #337cac;
   color: #fff; 
+  overflow: auto
 }
 
 .log:hover {
 	background-color :#4e9ed4;
+	width: 570px;
+    height: 500px;
+    padding: 100px;
+    border-radius: 50px;
 }
 
 .equalsign:hover{
