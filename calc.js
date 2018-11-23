@@ -66,29 +66,40 @@ function handleOperator(nextOperator) {
     calculator.operator = nextOperator;
 	calculator.previousString += String(nextOperator);
 	console.log(calculator);
+   calculator.waitingForSecondOperand = true;
+  calculator.operator = nextOperator;
     return;
   }
     //if first operand is null, set it to the input value
   if (firstOperand == null) {
     calculator.firstOperand = inputValue;
-	
-  } else if (operator) {
+	   calculator.waitingForSecondOperand = true;
+  calculator.operator = nextOperator;
+  }
+
+  else if (operator) { // even if its a * - or + redundant that is but okie
     const currentValue = firstOperand || 0;
     const result = performCalculation[operator](currentValue, inputValue);
 
     calculator.displayValue = String(result);
 	  calculator.previousString += String(result);
-    array.push(calculator.previousString);
-    clearPreviousString();
+    
     calculator.firstOperand = result;
+    if(calculator.waitingForSecondOperand == false)
+      console.log(calculator.previousString);
+      array.push(calculator.previousString);
+      clearPreviousString();
+
+    calculator.operator = nextOperator;
     
 
 	
   }
 
   //set the waiting for second operand flag and operator as the nextOperator
-  calculator.waitingForSecondOperand = true;
-  calculator.operator = nextOperator;
+
+  /*calculator.waitingForSecondOperand = true;
+  calculator.operator = nextOperator;*/
   
   
   console.log(calculator);  
