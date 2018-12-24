@@ -123,3 +123,14 @@ button:hover {
   grid-gap: 20px;
   padding: 20px;
 }
+
+ul {
+    -moz-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+ul > li {
+    -moz-transform: rotate(-180deg);
+    -webkit-transform: rotate(-180deg);
+    transform: rotate(-180deg);
+}
